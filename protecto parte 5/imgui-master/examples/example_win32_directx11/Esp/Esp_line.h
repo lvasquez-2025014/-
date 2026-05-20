@@ -475,7 +475,7 @@ const char* zGetWIcon(uint32_t ID)
 }
 
 struct TargetInfo {
-    uint32_t entity;
+    uintptr_t entity;
     ImVec2 headScreen;
     ImVec2 footScreen;
     Vector3 headPos;
@@ -496,7 +496,7 @@ struct TargetInfo {
 };
 
 // Obtener la matriz de vista y el jugador local (se reutiliza cada frame)
-static bool GetGameData(uint32_t& localPlayer, Matrix4x4& viewMatrix, Vector3& localPos, uint32_t& entities, int& entitiesCount, int& emuWidth, int& emuHeight, int& clientX, int& clientY)
+static bool GetGameData(uintptr_t& localPlayer, Matrix4x4& viewMatrix, Vector3& localPos, uintptr_t& entities, int& entitiesCount, int& emuWidth, int& emuHeight, int& clientX, int& clientY)
 {
     HWND hwnd = GetGameRenderWindow();
     if (!hwnd) return false;
@@ -509,59 +509,59 @@ static bool GetGameData(uint32_t& localPlayer, Matrix4x4& viewMatrix, Vector3& l
     clientX = pt.x;
     clientY = pt.y;
 
-    uint32_t gameFacade = 0;
-    if (!ReadZ(Il2Cpp + InitBase, gameFacade) || !gameFacade) return false;
-    uint32_t staticGameFacade = 0;
-    if (!ReadZ(gameFacade + StaticClass, staticGameFacade) || !staticGameFacade) return false;
-    uint32_t currentGame = 0;
-    if (!ReadZ(staticGameFacade, currentGame) || !currentGame) return false;
-    uint32_t currentMatch = 0;
-    if (!ReadZ(currentGame + CurrentMatch, currentMatch) || !currentMatch) return false;
-    if (!ReadZ(currentMatch + LocalPlayer, localPlayer) || !localPlayer) return false;
+    uintptr_t gameFacade = 0;
+    if (!ReadPointer(Il2Cpp + InitBase, gameFacade) || !gameFacade) return false;
+    uintptr_t staticGameFacade = 0;
+    if (!ReadPointer(gameFacade + StaticClass, staticGameFacade) || !staticGameFacade) return false;
+    uintptr_t currentGame = 0;
+    if (!ReadPointer(staticGameFacade, currentGame) || !currentGame) return false;
+    uintptr_t currentMatch = 0;
+    if (!ReadPointer(currentGame + CurrentMatch, currentMatch) || !currentMatch) return false;
+    if (!ReadPointer(currentMatch + LocalPlayer, localPlayer) || !localPlayer) return false;
 
     // Detectar si estamos en modo espectador (observando a alguien más)
-    uint32_t activeLocalPlayer = localPlayer;
-    uint32_t currentObserverPtr = 0;
-    if (ReadZ(localPlayer + CurrentObserver, currentObserverPtr) && currentObserverPtr) {
-        uint32_t observedPlayer = 0;
-        if (ReadZ(currentObserverPtr + ObserverPlayer, observedPlayer) && observedPlayer) {
+    uintptr_t activeLocalPlayer = localPlayer;
+    uintptr_t currentObserverPtr = 0;
+    if (ReadPointer(localPlayer + CurrentObserver, currentObserverPtr) && currentObserverPtr) {
+        uintptr_t observedPlayer = 0;
+        if (ReadPointer(currentObserverPtr + ObserverPlayer, observedPlayer) && observedPlayer) {
             activeLocalPlayer = observedPlayer;
         }
     }
 
-    uint32_t followCam = 0, cam = 0, camBase = 0;
-    if (!ReadZ(activeLocalPlayer + FollowCamera, followCam) || !followCam) {
+    uintptr_t followCam = 0, cam = 0, camBase = 0;
+    if (!ReadPointer(activeLocalPlayer + FollowCamera, followCam) || !followCam) {
         // Si falla con el jugador observado, intentamos de todos modos con el localPlayer original
         if (activeLocalPlayer != localPlayer) {
             activeLocalPlayer = localPlayer;
-            if (!ReadZ(activeLocalPlayer + FollowCamera, followCam) || !followCam) return false;
+            if (!ReadPointer(activeLocalPlayer + FollowCamera, followCam) || !followCam) return false;
         } else {
             return false;
         }
     }
-    if (!ReadZ(followCam + Camera, cam) || !cam) return false;
-    if (!ReadZ(cam + 0x8, camBase) || !camBase) return false;
+    if (!ReadPointer(followCam + Camera, cam) || !cam) return false;
+    if (!ReadPointer(cam + (is64Bit ? 0x10 : 0x8), camBase) || !camBase) return false;
     if (!ReadZ(camBase + ViewMatrix, viewMatrix)) return false;
 
-    uint32_t localRoot = 0;
-    if (ReadZ(activeLocalPlayer + Root, localRoot) && localRoot)
+    uintptr_t localRoot = 0;
+    if (ReadPointer(activeLocalPlayer + Root, localRoot) && localRoot)
         GetNodePosition(localRoot, localPos);
     else localPos = Vector3(0, 0, 0);
 
     // Asignar al parámetro de salida para que las distancias y filtros usen el jugador activo
     localPlayer = activeLocalPlayer;
 
-    uint32_t entityDict = 0;
-    if (!ReadZ(currentGame + DictionaryEntities, entityDict) || !entityDict) return false;
-    ReadZ(entityDict + 0x10, entitiesCount);
+    uintptr_t entityDict = 0;
+    if (!ReadPointer(currentGame + DictionaryEntities, entityDict) || !entityDict) return false;
+    ReadZ(entityDict + (is64Bit ? 0x20 : 0x10), entitiesCount);
     if (entitiesCount <= 0) return false;
-    ReadZ(entityDict + 0x0C, entities);
-    entities += 0x10;
+    ReadPointer(entityDict + (is64Bit ? 0x18 : 0x0C), entities);
+    entities += (is64Bit ? 0x20 : 0x10);
     return true;
 }
 
 // Leer datos de un enemigo
-static TargetInfo ReadEnemyData(uint32_t entity, const Vector3& localPos, const Matrix4x4& viewMatrix, int emuWidth, int emuHeight)
+static TargetInfo ReadEnemyData(uintptr_t entity, const Vector3& localPos, const Matrix4x4& viewMatrix, int emuWidth, int emuHeight)
 {
     TargetInfo info = {};
     info.entity = entity;
@@ -571,11 +571,11 @@ static TargetInfo ReadEnemyData(uint32_t entity, const Vector3& localPos, const 
     info.isTeam = false;
     info.isDead = false;
 
-    uint32_t avatarMgr = 0, avatar = 0, avatarData = 0;
-    if (ReadZ(entity + AvatarManager, avatarMgr) && avatarMgr) {
-        if (ReadZ(avatarMgr + Avatar, avatar) && avatar) {
+    uintptr_t avatarMgr = 0, avatar = 0, avatarData = 0;
+    if (ReadPointer(entity + AvatarManager, avatarMgr) && avatarMgr) {
+        if (ReadPointer(avatarMgr + Avatar, avatar) && avatar) {
             ReadZ(avatar + Avatar_IsVisible, info.isVisible);
-            if (ReadZ(avatar + Avatar_Data, avatarData) && avatarData) {
+            if (ReadPointer(avatar + Avatar_Data, avatarData) && avatarData) {
                 ReadZ(avatarData + Avatar_Data_IsTeam, info.isTeam);
             }
         }
@@ -587,8 +587,8 @@ static TargetInfo ReadEnemyData(uint32_t entity, const Vector3& localPos, const 
     }
 
     // Noqueado
-    uint32_t shadowBase = 0;
-    if (ReadZ(entity + Player_ShadowBase, shadowBase) && shadowBase) {
+    uintptr_t shadowBase = 0;
+    if (ReadPointer(entity + Player_ShadowBase, shadowBase) && shadowBase) {
         int xpose = 0;
         if (ReadZ(shadowBase + XPose, xpose) && xpose == 8)
             info.isKnocked = true;
@@ -600,18 +600,18 @@ static TargetInfo ReadEnemyData(uint32_t entity, const Vector3& localPos, const 
     info.isWukongOrion = (wukong == 1 || wukong == 2);
 
     // Nombre
-    uint32_t nameAddr = 0;
-    if (ReadZ(entity + Player_Name, nameAddr) && nameAddr)
+    uintptr_t nameAddr = 0;
+    if (ReadPointer(entity + Player_Name, nameAddr) && nameAddr)
         info.name = ReadPlayerName(nameAddr);
     if (info.name.empty()) info.name = "Player";
 
     // Salud y escudo
-    uint32_t dataPool = 0, poolObj = 0, pool = 0;
+    uintptr_t dataPool = 0, poolObj = 0, pool = 0;
     int rawHealth = 0;
-    if (ReadZ(entity + Player_Data, dataPool) && dataPool &&
-        ReadZ(dataPool + 0x8, poolObj) && poolObj &&
-        ReadZ(poolObj + 0x10, pool) && pool) {
-        ReadZ(pool + 0xC, rawHealth);
+    if (ReadPointer(entity + Player_Data, dataPool) && dataPool &&
+        ReadPointer(dataPool + (is64Bit ? 0x10 : 0x8), poolObj) && poolObj &&
+        ReadPointer(poolObj + (is64Bit ? 0x20 : 0x10), pool) && pool) {
+        ReadZ(pool + (is64Bit ? 0x18 : 0xC), rawHealth);
         ReadZ(pool + HealdShieldEP, info.shield);
     }
     
@@ -631,9 +631,9 @@ static TargetInfo ReadEnemyData(uint32_t entity, const Vector3& localPos, const 
     info.id = (entity & 0xFFFF) % 9999;
 
     // Posiciones
-    uint32_t headBone = 0, rootBone = 0;
-    if (!ReadZ(entity + Head, headBone) || !headBone) return info;
-    if (!ReadZ(entity + Root, rootBone) || !rootBone) return info;
+    uintptr_t headBone = 0, rootBone = 0;
+    if (!ReadPointer(entity + Head, headBone) || !headBone) return info;
+    if (!ReadPointer(entity + Root, rootBone) || !rootBone) return info;
     if (!GetNodePosition(headBone, info.headPos)) return info;
     if (!GetNodePosition(rootBone, info.rootPos)) return info;
     info.distance3D = Vector3::Distance(localPos, info.headPos);
@@ -1138,10 +1138,10 @@ void ESP_line()
     static auto lastShotTime = std::chrono::steady_clock::now();
 
     int emuWidth, emuHeight, clientX, clientY;
-    uint32_t localPlayer = 0;
+    uintptr_t localPlayer = 0;
     Matrix4x4 viewMatrix;
     Vector3 localPos;
-    uint32_t entities = 0;
+    uintptr_t entities = 0;
     int entitiesCount = 0;
     
     bool dataValid = GetGameData(localPlayer, viewMatrix, localPos, entities, entitiesCount, emuWidth, emuHeight, clientX, clientY);
@@ -1204,12 +1204,20 @@ void ESP_line()
     std::vector<TargetInfo> validTargets;
     if (dataValid) {
         for (uint32_t i = 0; i < entitiesCount; i++) {
-            uint32_t entry = entities + i * 0x10;
+            uintptr_t entry = entities + i * (is64Bit ? 24 : 16);
             int hash = 0;
             ReadZ(entry, hash);
             if (hash < 0) continue;
-            uint32_t entity = 0;
-            ReadZ(entry + 0x0C, entity);
+            uintptr_t entity = 0;
+            if (is64Bit) {
+                uint64_t temp = 0;
+                ReadZ(entry + 0x10, temp);
+                entity = (uintptr_t)temp;
+            } else {
+                uint32_t temp = 0;
+                ReadZ(entry + 0x0C, temp);
+                entity = (uintptr_t)temp;
+            }
             if (entity == 0 || entity == localPlayer) continue;
 
             TargetInfo info = ReadEnemyData(entity, localPos, viewMatrix, emuWidth, emuHeight);

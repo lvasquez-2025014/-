@@ -1291,6 +1291,11 @@ int maindll()
                                 }
 
                                 if (adbInitialized) {
+                                    if (ImGui::Button("BUSCAR OFFSET AUTOMATICO")) {
+                                        std::thread([]() {
+                                            BuscarInitBaseManual(0x8000000, 0xD000000);
+                                        }).detach();
+                                    }
                                     ImGui::Spacing();
                                     ImGui::Separator();
                                     ImGui::Spacing();

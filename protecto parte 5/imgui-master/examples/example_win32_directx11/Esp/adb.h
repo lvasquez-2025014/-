@@ -248,6 +248,25 @@ bool ReadZ(uintptr_t address, T& data) {
     return ConvertZ(address, physAddress) && (zHookRead(pVMAddr, physAddress, &data, sizeof(T)) == 0);
 }
 
+// Lectura de punteros dinámicos (32-bit y 64-bit)
+inline bool ReadPointer(uintptr_t address, uintptr_t& outPtr) {
+    if (is64Bit) {
+        uint64_t temp = 0;
+        if (ReadZ(address, temp)) {
+            outPtr = (uintptr_t)temp;
+            return true;
+        }
+        return false;
+    } else {
+        uint32_t temp = 0;
+        if (ReadZ(address, temp)) {
+            outPtr = (uintptr_t)temp;
+            return true;
+        }
+        return false;
+    }
+}
+
 // Lectura de arrays optimizada
 template<typename T>
 bool ReadArrayZ(uintptr_t address, std::vector<T>& array) {
@@ -1003,6 +1022,8 @@ void KillProcessByFenix(const wchar_t* processNameW) {
 
 
 
+
+inline void BuscarInitBaseManual(uintptr_t startOffset, uintptr_t endOffset);
 
 // Thread para inicializar ADB en background sin afectar FPS
 inline static std::atomic<bool> adbThreadRunning = false;

@@ -118,7 +118,6 @@ bool authenticed = false;
 bool loading = false;
 bool show_login = true;
 bool choose_game = false;
-inline static int selected_game_version = 0; // 0 = Free Fire, 1 = Free Fire Max
 static float load_speed = 0.25f; // Velocidad de carga, ajusta como desees (0.25 = ~4s)
 static float progress1 = 0.0f;
 bool loading2 = false;

@@ -16,6 +16,9 @@ inline uintptr_t ViewMatrix;
 
 inline bool is64Bit = true; // Flag global de arquitectura de memoria detectado dinámicamente
 
+inline int selected_game_version = 0; // 0 = Free Fire, 1 = Free Fire Max
+
+
 
 
 inline uintptr_t MatchStatus;
