@@ -1,6 +1,7 @@
 #pragma once
 #include "vector.h"
 #include "adb.h"
+#include "radar.h"
 #include "../../../imgui_internal.h"
 #include <chrono>
 #include <unordered_map>
@@ -80,6 +81,11 @@ inline ImVec4 g_FovColor;
 inline ImVec4 g_InvisibleColor;
 
 // ======================== IMPLEMENTACIÓN ========================
+
+struct KeybindItem {
+    const char* name;
+    bool active;
+};
 
 // Valores por defecto se inicializan directamente en las variables inline declaradas arriba
 struct DefaultInitializer {
@@ -1119,6 +1125,86 @@ inline void OptimizeGameAndBoostFPS() {
     CacheZ.clear();
 }
 
+inline bool WorldToRadar(const Vector3& targetWorld, const Vector3& localWorld, float localYaw,
+                         float radarRadiusPixels, float worldRange, ImVec2& outRadarPos)
+{
+    Vector3 delta = targetWorld - localWorld;
+    float dist = sqrtf(delta.x * delta.x + delta.z * delta.z);
+    if (dist > worldRange) return false;
+
+    float angleToTarget = atan2f(delta.x, delta.z);
+    float relativeAngle = angleToTarget - localYaw;
+    float r = (dist / worldRange) * radarRadiusPixels;
+    float x = r * sinf(relativeAngle);
+    float y = -r * cosf(relativeAngle);
+
+    outRadarPos = ImVec2(x, y);
+    return true;
+}
+
+inline void DrawRadar(const Matrix4x4& viewMatrix, const Vector3& localPos,
+               const std::vector<TargetInfo>& enemies,
+               const std::vector<TargetInfo>& teammates,
+               float localYaw)
+{
+    if (!g_RadarEnabled) return;
+
+    ImDrawList* draw = ImGui::GetBackgroundDrawList();
+
+    ImVec2 radarMin = g_RadarPosition;
+    ImVec2 radarMax = ImVec2(radarMin.x + g_RadarSize, radarMin.y + g_RadarSize);
+    ImVec2 radarCenter = ImVec2(radarMin.x + g_RadarSize * 0.5f, radarMin.y + g_RadarSize * 0.5f);
+    float radius = g_RadarSize * 0.5f;
+
+    draw->AddCircleFilled(radarCenter, radius, IM_COL32(0, 0, 0, 180), 64);
+    draw->AddCircle(radarCenter, radius, IM_COL32(0, 200, 255, 200), 64, 2.0f);
+    draw->AddLine(ImVec2(radarCenter.x, radarMin.y), ImVec2(radarCenter.x, radarMax.y), IM_COL32(255,255,255,80), 1.0f);
+    draw->AddLine(ImVec2(radarMin.x, radarCenter.y), ImVec2(radarMax.x, radarCenter.y), IM_COL32(255,255,255,80), 1.0f);
+
+    float fovRad = 1.2f;
+    float coneStart = -fovRad * 0.5f;
+    float coneEnd   =  fovRad * 0.5f;
+    ImU32 coneColor = IM_COL32(0, 200, 255, 70);
+    for (int i = 0; i <= 20; ++i) {
+        float t1 = coneStart + (coneEnd - coneStart) * (i / 20.0f);
+        float t2 = coneStart + (coneEnd - coneStart) * ((i+1) / 20.0f);
+        ImVec2 p1 = ImVec2(radarCenter.x + sinf(t1) * radius * 0.6f, radarCenter.y - cosf(t1) * radius * 0.6f);
+        ImVec2 p2 = ImVec2(radarCenter.x + sinf(t2) * radius * 0.6f, radarCenter.y - cosf(t2) * radius * 0.6f);
+        draw->AddLine(radarCenter, p1, coneColor, 1.2f);
+    }
+
+    if (g_RadarShowEnemies) {
+        for (const auto& enemy : enemies) {
+            if (enemy.isDead) continue;
+            ImVec2 radarRel;
+            if (WorldToRadar(enemy.headPos, localPos, localYaw, radius, g_RadarRange, radarRel)) {
+                ImVec2 screenPoint = ImVec2(radarCenter.x + radarRel.x, radarCenter.y + radarRel.y);
+                ImU32 color = enemy.isKnocked ? IM_COL32(255, 140, 0, 255) : IM_COL32(255, 0, 0, 255);
+                if (!enemy.isVisible) color = IM_COL32(180, 0, 255, 200);
+                draw->AddCircleFilled(screenPoint, 4.0f, color);
+                draw->AddCircle(screenPoint, 4.0f, IM_COL32(255,255,255,200), 8, 1.0f);
+            }
+        }
+    }
+
+    if (g_RadarShowTeam) {
+        for (const auto& mate : teammates) {
+            if (mate.isDead) continue;
+            ImVec2 radarRel;
+            if (WorldToRadar(mate.headPos, localPos, localYaw, radius, g_RadarRange, radarRel)) {
+                ImVec2 screenPoint = ImVec2(radarCenter.x + radarRel.x, radarCenter.y + radarRel.y);
+                draw->AddCircleFilled(screenPoint, 4.0f, IM_COL32(0, 255, 0, 255));
+                draw->AddCircle(screenPoint, 4.0f, IM_COL32(255,255,255,200), 8, 1.0f);
+            }
+        }
+    }
+
+    char rangeText[32];
+    sprintf(rangeText, "%.0fm", g_RadarRange);
+    ImVec2 textSize = ImGui::CalcTextSize(rangeText);
+    draw->AddText(ImVec2(radarMin.x + 5, radarMax.y - textSize.y - 5), IM_COL32(200,200,200,200), rangeText);
+}
+
 // Función principal ESP_line
 void ESP_line()
 {
@@ -1713,10 +1799,8 @@ void ESP_line()
         float headerHeight = 35.0f;
         float itemHeight = 25.0f;
         
-        struct KeybindItem {
-            const char* name;
-            bool active;
-        };
+        
+
         
         KeybindItem items[] = {
             { "Aim Assist", g_AimAssist },
@@ -1776,6 +1860,20 @@ void ESP_line()
             
             currentY += itemHeight;
         }
+    }
+
+    // ======================== RADAR 2D ========================
+    if (g_RadarEnabled && dataValid && localPlayer != 0) {
+        std::vector<TargetInfo> enemies;
+        std::vector<TargetInfo> teammates;
+        for (const auto& target : validTargets) {
+            if (target.isTeam)
+                teammates.push_back(target);
+            else
+                enemies.push_back(target);
+        }
+        float yaw = GetCameraYaw(viewMatrix);
+        DrawRadar(viewMatrix, localPos, enemies, teammates, yaw);
     }
 
     draw->PopClipRect();

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -73,9 +73,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\Asmodeus\Downloads\ZadaFFX-V3\ZadaFFX-V3\examples\example_win32_directx11\SDK\Include;C:\Users\Asmodeus\Downloads\ZadaFFX-V3\ZadaFFX-V3\examples\example_win32_directx11\Freetype\include;$(IncludePath)</IncludePath>
-    <ExternalIncludePath>C:\Users\Asmodeus\Downloads\ZadaFFX-V3\ZadaFFX-V3\examples\example_win32_directx11\MinHook\src;C:\Users\Asmodeus\Downloads\ZadaFFX-V3\ZadaFFX-V3\examples\example_win32_directx11\MinHook\include;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>C:\Users\Asmodeus\Downloads\ZadaFFX-V3\ZadaFFX-V3\examples\example_win32_directx11\Freetype\win64;C:\Users\Asmodeus\Downloads\ZadaFFX-V3\ZadaFFX-V3\examples\example_win32_directx11\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\SDK\Include;$(ProjectDir)..\..\Freetype\include;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(ProjectDir)MinHook\src;$(ProjectDir)MinHook\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>$(ProjectDir)..\..\SDK\Lib\x64;$(ProjectDir)..\..\Freetype\win64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
@@ -84,8 +84,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <ExternalIncludePath>C:\Users\Asmodeus\Downloads\protecto parte 5\protecto parte 5\imgui-master\SDK\Include;C:\Users\Asmodeus\Downloads\protecto parte 5\protecto parte 5\imgui-master\MinHook\include;C:\Users\Asmodeus\Downloads\protecto parte 5\protecto parte 5\imgui-master\Freetype\include;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>C:\Users\Asmodeus\Downloads\protecto parte 5\protecto parte 5\imgui-master\SDK\Lib\x64;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>$(ProjectDir)..\..\SDK\Include;$(ProjectDir)MinHook\include;$(ProjectDir)..\..\Freetype\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>$(ProjectDir)..\..\SDK\Lib\x64;$(ProjectDir)..\..\Freetype\win64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
@@ -116,7 +116,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Asmodeus\Downloads\protecto parte 5\protecto parte 5\imgui-master\SDK\Lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\ZT\Desktop\imgui-master\SDK\Lib\x64</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -175,6 +175,7 @@
     <ClInclude Include="Esp\lib.h" />
     <ClInclude Include="Esp\notificaciones.h" />
     <ClInclude Include="Esp\offset.h" />
+    <ClInclude Include="Esp\radar.h" />
     <ClInclude Include="Esp\vector.h" />
     <ClInclude Include="Esp\Weapons.h" />
     <ClInclude Include="Font.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="..\..\imgui_widgets.cpp" />
     <ClCompile Include="..\..\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="..\..\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="Esp\radar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MinHook\src\buffer.c" />
     <ClCompile Include="MinHook\src\hde\hde32.c" />

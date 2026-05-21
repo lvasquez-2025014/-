@@ -47,6 +47,7 @@
     <ClInclude Include="Esp\Weapons.h" />
     <ClInclude Include="Esp\notificaciones.h" />
     <ClInclude Include="Auth\skCrypt.h" />
+    <ClInclude Include="Esp\radar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui.cpp">
@@ -78,6 +79,7 @@
     <ClCompile Include="MinHook\src\buffer.c" />
     <ClCompile Include="MinHook\src\hook.c" />
     <ClCompile Include="MinHook\src\trampoline.c" />
+    <ClCompile Include="Esp\radar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.txt" />

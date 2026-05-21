@@ -1,6 +1,7 @@
 #include "main.h"
 #include <ctime>
 #include "Esp/Weapons.h"
+#include "Esp/radar.h"
 
 
 using namespace KeyAuth;
@@ -1453,6 +1454,19 @@ int maindll()
                                 
                                 ImGui::SetCursorPosX(10);
                                 ImGui::Checkbox2("Rainbow ESP (RGB)", &g_EspRainbowGlobal);
+
+                                // RADAR 2D
+                                ImGui::Spacing();
+                                ImGui::SetCursorPosX(10);
+                                ImGui::Checkbox2("Radar 2D", &g_RadarEnabled);
+                                if (g_RadarEnabled) {
+                                    ImGui::SetCursorPosX(20);
+                                    ImGui::PushItemWidth(120);
+                                    ImGui::SliderFloat("##RadarSize", &g_RadarSize, 100.0f, 300.0f, "Tamaño: %.0f px");
+                                    ImGui::SliderFloat("##RadarRange", &g_RadarRange, 30.0f, 300.0f, "Alcance: %.0f m");
+                                    ImGui::Checkbox2("Mostrar equipo", &g_RadarShowTeam);
+                                    ImGui::PopItemWidth();
+                                }
                             }
                             EndGroupBox();
 

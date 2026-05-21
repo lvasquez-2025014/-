@@ -3,7 +3,7 @@
 #include <tlhelp32.h>
 #include "vector.h"
 #include "lib.h"
-#include "C:\Users\Asmodeus\Downloads\protecto parte 5\protecto parte 5\imgui-master\MinHook\include\MinHook.h"
+#include "C:\Users\ZT\Desktop\imgui-master\MinHook\include\MinHook.h"
 #include "offset.h"
 #include "notificaciones.h"
 DWORD GetProcZ(const char* processName)
@@ -1108,6 +1108,8 @@ inline static std::string AdbGetPidZ(const std::string& packageName) {
     return "";
 }
 
+inline void BuscarInitBaseManual(uintptr_t startOffset, uintptr_t endOffset);
+
 DWORD WINAPI ADBInitThread(LPVOID lpParam) {
     // Proceso ADB en thread separado para no causar tirones
     Notifications::Add("ᶻ̷ ᴴ𝒯𝐸𝒜𝑀", "Waiting for secure connection...", 4.0f);
@@ -1165,7 +1167,7 @@ DWORD WINAPI ADBInitThread(LPVOID lpParam) {
     if (!il2cppStr.empty()) {
         Il2Cpp = uIntExtrZ(il2cppStr);
         is64Bit = (Il2Cpp > 0xFFFFFFFF); // Si es mayor a 32 bits, entonces el guest es 64 bits
-        initOffsets(selected_game_version); // Refrescar offsets dinámicamente con la arquitectura detectada
+        initOffsets(GamePackage == "com.dts.freefiremax" ? 1 : 0); // Refrescar offsets dinámicamente con la arquitectura detectada
     } else {
         Il2Cpp = 0;
     }

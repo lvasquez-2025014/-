@@ -52,14 +52,14 @@ namespace Notifications {
 
             if (it->remainingTime <= 0.0f) {
                 // Fade out
-                it->alpha = std::max(0.0f, it->alpha - deltaTime * 4.0f);
+                it->alpha = (std::max)(0.0f, it->alpha - deltaTime * 4.0f);
                 if (it->alpha <= 0.0f) {
                     it = list.erase(it);
                     continue;
                 }
             } else {
                 // Fade in and slide down
-                it->alpha = std::min(1.0f, it->alpha + deltaTime * 5.0f);
+                it->alpha = (std::min)(1.0f, it->alpha + deltaTime * 5.0f);
                 it->slideY = it->slideY + (0.0f - it->slideY) * deltaTime * 10.0f;
             }
 
