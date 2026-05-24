@@ -1,0 +1,494 @@
+.class public Lcom/scriptkittens/aimkill/Login;
+.super Ljava/lang/Object;
+.source ""
+
+
+# static fields
+.field public static final a:Ljava/lang/String;
+
+.field public static final b:Ljava/lang/String;
+
+.field public static final c:Ljava/lang/String;
+
+.field public static final d:Ljava/lang/String;
+
+.field public static final e:Ljava/lang/String;
+
+.field public static final f:Ljava/lang/String;
+
+
+# instance fields
+.field public a:I
+
+.field public a:Landroid/content/Context;
+
+.field public a:Landroid/widget/EditText;
+
+.field public a:Landroid/widget/Switch;
+
+.field public a:Landroid/widget/TextView;
+
+.field public a:Lc1;
+
+.field public a:Lcom/scriptkittens/aimkill/Utils;
+
+.field public a:Le1;
+
+.field public b:Landroid/widget/TextView;
+
+
+# direct methods
+.method public static constructor <clinit>()V
+    .registers 1
+
+    const-string v0, "hawdawdawdawda"
+
+    invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V
+
+    const/4 v0, 0x0
+
+    invoke-static {v0}, Lcom/scriptkittens/aimkill/Login;->getNativeString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/scriptkittens/aimkill/Login;->a:Ljava/lang/String;
+
+    const/4 v0, 0x1
+
+    invoke-static {v0}, Lcom/scriptkittens/aimkill/Login;->getNativeString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/scriptkittens/aimkill/Login;->b:Ljava/lang/String;
+
+    const/4 v0, 0x2
+
+    invoke-static {v0}, Lcom/scriptkittens/aimkill/Login;->getNativeString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/scriptkittens/aimkill/Login;->c:Ljava/lang/String;
+
+    const/4 v0, 0x3
+
+    invoke-static {v0}, Lcom/scriptkittens/aimkill/Login;->getNativeString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/scriptkittens/aimkill/Login;->d:Ljava/lang/String;
+
+    const/4 v0, 0x4
+
+    invoke-static {v0}, Lcom/scriptkittens/aimkill/Login;->getNativeString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/scriptkittens/aimkill/Login;->e:Ljava/lang/String;
+
+    const/4 v0, 0x5
+
+    invoke-static {v0}, Lcom/scriptkittens/aimkill/Login;->getNativeString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/scriptkittens/aimkill/Login;->f:Ljava/lang/String;
+
+    return-void
+.end method
+
+.method public constructor <init>(Landroid/content/Context;)V
+    .registers 6
+
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    iput-object p1, p0, Lcom/scriptkittens/aimkill/Login;->a:Landroid/content/Context;
+
+    new-instance v0, Lcom/scriptkittens/aimkill/Utils;
+
+    invoke-direct {v0, p1}, Lcom/scriptkittens/aimkill/Utils;-><init>(Landroid/content/Context;)V
+
+    iput-object v0, p0, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    new-instance p1, Lc1;
+
+    invoke-direct {p1}, Lc1;-><init>()V
+
+    iput-object p1, p0, Lcom/scriptkittens/aimkill/Login;->a:Lc1;
+
+    new-instance p1, Le1;
+
+    sget-object v0, Lcom/scriptkittens/aimkill/Login;->c:Ljava/lang/String;
+
+    sget-object v1, Lcom/scriptkittens/aimkill/Login;->b:Ljava/lang/String;
+
+    sget-object v2, Lcom/scriptkittens/aimkill/Login;->d:Ljava/lang/String;
+
+    sget-object v3, Lcom/scriptkittens/aimkill/Login;->a:Ljava/lang/String;
+
+    invoke-direct {p1, v0, v1, v2, v3}, Le1;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+
+    iput-object p1, p0, Lcom/scriptkittens/aimkill/Login;->a:Le1;
+
+    invoke-direct {p0}, Lcom/scriptkittens/aimkill/Login;->a()V
+
+    return-void
+.end method
+
+.method private a()V
+    .registers 19
+
+    move-object/from16 v6, p0
+
+    iget-object v0, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/content/Context;
+
+    sget-object v1, Lcom/scriptkittens/aimkill/Login;->e:Ljava/lang/String;
+
+    const/4 v7, 0x0
+
+    invoke-virtual {v0, v1, v7}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object v5
+
+    sget-object v0, Lcom/scriptkittens/aimkill/Login;->f:Ljava/lang/String;
+
+    const-string v1, ""
+
+    invoke-interface {v5, v0, v1}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    new-instance v8, Landroid/widget/LinearLayout;
+
+    iget-object v1, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/content/Context;
+
+    invoke-direct {v8, v1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
+
+    new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
+
+    const/4 v2, -0x1
+
+    invoke-direct {v1, v2, v2}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
+
+    invoke-virtual {v8, v1}, Landroid/widget/LinearLayout;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
+
+    new-instance v1, Landroid/graphics/drawable/GradientDrawable;
+
+    invoke-direct {v1}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
+
+    const/4 v3, 0x3
+
+    new-array v4, v3, [I
+
+    fill-array-data v4, :array_4cc
+
+    invoke-virtual {v1, v4}, Landroid/graphics/drawable/GradientDrawable;->setColors([I)V
+
+    sget-object v4, Landroid/graphics/drawable/GradientDrawable$Orientation;->TOP_BOTTOM:Landroid/graphics/drawable/GradientDrawable$Orientation;
+
+    invoke-virtual {v1, v4}, Landroid/graphics/drawable/GradientDrawable;->setOrientation(Landroid/graphics/drawable/GradientDrawable$Orientation;)V
+
+    invoke-virtual {v8, v1}, Landroid/widget/LinearLayout;->setBackground(Landroid/graphics/drawable/Drawable;)V
+
+    const/4 v1, 0x1
+
+    invoke-virtual {v8, v1}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
+    const/16 v9, 0x11
+
+    invoke-virtual {v8, v9}, Landroid/widget/LinearLayout;->setGravity(I)V
+
+    new-instance v4, Landroid/widget/Switch;
+
+    iget-object v10, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/content/Context;
+
+    invoke-direct {v4, v10}, Landroid/widget/Switch;-><init>(Landroid/content/Context;)V
+
+    iput-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/widget/Switch;
+
+    const-string v10, "BYPASS ROOT"
+
+    invoke-virtual {v4, v10}, Landroid/widget/Switch;->setText(Ljava/lang/CharSequence;)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/widget/Switch;
+
+    const v10, -0x1f1f20
+
+    invoke-virtual {v4, v10}, Landroid/widget/Switch;->setTextColor(I)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/widget/Switch;
+
+    const/high16 v11, 0x41400000  # 12.0f
+
+    invoke-virtual {v4, v11}, Landroid/widget/Switch;->setTextSize(F)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/widget/Switch;
+
+    iget-object v12, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    const/16 v13, 0x14
+
+    invoke-virtual {v12, v13}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v12
+
+    iget-object v14, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    invoke-virtual {v14, v13}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v14
+
+    invoke-virtual {v4, v12, v14, v7, v7}, Landroid/widget/Switch;->setPadding(IIII)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/widget/Switch;
+
+    const/16 v12, 0x8
+
+    invoke-virtual {v4, v12}, Landroid/widget/Switch;->setVisibility(I)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/widget/Switch;
+
+    const v14, -0xc771c4
+
+    invoke-static {v14}, Landroid/content/res/ColorStateList;->valueOf(I)Landroid/content/res/ColorStateList;
+
+    move-result-object v15
+
+    invoke-virtual {v4, v15}, Landroid/widget/Switch;->setThumbTintList(Landroid/content/res/ColorStateList;)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/widget/Switch;
+
+    const v15, -0xd2c8b8
+
+    invoke-static {v15}, Landroid/content/res/ColorStateList;->valueOf(I)Landroid/content/res/ColorStateList;
+
+    move-result-object v15
+
+    invoke-virtual {v4, v15}, Landroid/widget/Switch;->setTrackTintList(Landroid/content/res/ColorStateList;)V
+
+    new-instance v4, Landroid/widget/LinearLayout;
+
+    iget-object v15, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/content/Context;
+
+    invoke-direct {v4, v15}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
+
+    new-instance v15, Landroid/widget/LinearLayout$LayoutParams;
+
+    const/4 v3, -0x2
+
+    invoke-direct {v15, v2, v3}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
+
+    invoke-virtual {v4, v15}, Landroid/widget/LinearLayout;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
+
+    invoke-virtual {v4, v7}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
+    const v15, 0x800003
+
+    invoke-virtual {v4, v15}, Landroid/widget/LinearLayout;->setGravity(I)V
+
+    iget-object v15, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/widget/Switch;
+
+    invoke-virtual {v4, v15}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+
+    invoke-virtual {v8, v4}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/widget/Switch;
+
+    new-instance v15, Ly;
+
+    invoke-direct {v15, v6}, Ly;-><init>(Lcom/scriptkittens/aimkill/Login;)V
+
+    invoke-virtual {v4, v15}, Landroid/widget/Switch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
+
+    new-instance v4, Landroid/graphics/drawable/GradientDrawable;
+
+    invoke-direct {v4}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
+
+    iget-object v15, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    const/16 v11, 0x18
+
+    invoke-virtual {v15, v11}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v15
+
+    int-to-float v15, v15
+
+    invoke-virtual {v4, v15}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
+
+    const/4 v15, 0x2
+
+    new-array v10, v15, [I
+
+    fill-array-data v10, :array_4d6
+
+    invoke-virtual {v4, v10}, Landroid/graphics/drawable/GradientDrawable;->setColors([I)V
+
+    sget-object v10, Landroid/graphics/drawable/GradientDrawable$Orientation;->TOP_BOTTOM:Landroid/graphics/drawable/GradientDrawable$Orientation;
+
+    invoke-virtual {v4, v10}, Landroid/graphics/drawable/GradientDrawable;->setOrientation(Landroid/graphics/drawable/GradientDrawable$Orientation;)V
+
+    iget-object v10, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    invoke-virtual {v10, v1}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v10
+
+    invoke-virtual {v4, v10, v14}, Landroid/graphics/drawable/GradientDrawable;->setStroke(II)V
+
+    new-instance v10, Landroid/widget/LinearLayout;
+
+    iget-object v12, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/content/Context;
+
+    invoke-direct {v10, v12}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
+
+    new-instance v12, Landroid/widget/LinearLayout$LayoutParams;
+
+    iget-object v14, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    const/16 v15, 0x140
+
+    invoke-virtual {v14, v15}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v14
+
+    invoke-direct {v12, v14, v3}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
+
+    iget-object v14, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    const/16 v15, 0x1e
+
+    invoke-virtual {v14, v15}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v14
+
+    invoke-virtual {v12, v14, v14, v14, v14}, Landroid/widget/LinearLayout$LayoutParams;->setMargins(IIII)V
+
+    invoke-virtual {v10, v12}, Landroid/widget/LinearLayout;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
+
+    invoke-virtual {v10, v1}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
+    invoke-virtual {v10, v9}, Landroid/widget/LinearLayout;->setGravity(I)V
+
+    invoke-virtual {v10, v4}, Landroid/widget/LinearLayout;->setBackground(Landroid/graphics/drawable/Drawable;)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    invoke-virtual {v4, v13}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v4
+
+    int-to-float v4, v4
+
+    invoke-virtual {v10, v4}, Landroid/widget/LinearLayout;->setElevation(F)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    invoke-virtual {v4, v11}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v4
+
+    iget-object v12, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    const/16 v14, 0x20
+
+    invoke-virtual {v12, v14}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v12
+
+    iget-object v14, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    invoke-virtual {v14, v11}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v14
+
+    iget-object v13, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    invoke-virtual {v13, v11}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v11
+
+    invoke-virtual {v10, v4, v12, v14, v11}, Landroid/widget/LinearLayout;->setPadding(IIII)V
+
+    new-instance v11, Landroid/widget/LinearLayout;
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/content/Context;
+
+    invoke-direct {v11, v4}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
+
+    new-instance v4, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-direct {v4, v2, v3}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
+
+    invoke-virtual {v11, v4}, Landroid/widget/LinearLayout;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
+
+    invoke-virtual {v11, v9}, Landroid/widget/LinearLayout;->setGravity(I)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/scriptkittens/aimkill/Utils;
+
+    invoke-virtual {v4, v15}, Lcom/scriptkittens/aimkill/Utils;->FixDP(I)I
+
+    move-result v4
+
+    invoke-virtual {v11, v7, v7, v7, v4}, Landroid/widget/LinearLayout;->setPadding(IIII)V
+
+    new-instance v4, Landroid/widget/TextView;
+
+    iget-object v12, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/content/Context;
+
+    invoke-direct {v4, v12}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
+
+    iput-object v4, v6, Lcom/scriptkittens/aimkill/Login;->b:Landroid/widget/TextView;
+
+    new-instance v12, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-direct {v12, v3, v3}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
+
+    invoke-virtual {v4, v12}, Landroid/widget/TextView;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->b:Landroid/widget/TextView;
+
+    invoke-virtual {v4, v2}, Landroid/widget/TextView;->setTextColor(I)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->b:Landroid/widget/TextView;
+
+    const/high16 v12, 0x41a00000  # 20.0f
+
+    invoke-virtual {v4, v12}, Landroid/widget/TextView;->setTextSize(F)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->b:Landroid/widget/TextView;
+
+    const/4 v12, 0x0
+
+    invoke-virtual {v4, v12, v1}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;I)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->b:Landroid/widget/TextView;
+
+    const v13, 0x3d4ccccd  # 0.05f
+
+    invoke-virtual {v4, v13}, Landroid/widget/TextView;->setLetterSpacing(F)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->b:Landroid/widget/TextView;
+
+    invoke-virtual {v4, v9}, Landroid/widget/TextView;->setGravity(I)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->b:Landroid/widget/TextView;
+
+    invoke-virtual {v4, v1}, Landroid/widget/TextView;->setAllCaps(Z)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->b:Landroid/widget/TextView;
+
+    invoke-virtual {v4, v1}, Landroid/widget/TextView;->setMaxLines(I)V
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->b:Landroid/widget/TextView;
+
+    invoke-virtual {v4, v1}, Landroid/widget/TextView;->setSingleLine(Z)V
+
+    new-instance v13, Landroid/view/View;
+
+    iget-object v4, v6, Lcom/scriptkittens/aimkill/Login;->a:Landroid/content/Context;
+
+    invoke-direct {v13, v4}, Landroid/view/View;-><init>(Landroid/content/Context;)V
+
+    new-instance v4, Landroid/widget/LinearLayout$LayoutParams;
+
+    iget-object v14, v6, Lcom/scriptkittens/aimkill/Login;->a:Lcom/sc
