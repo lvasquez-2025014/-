@@ -8,7 +8,7 @@
 #include <windows.h>
 //#include <ntstatus.h>         
 #include <winternl.h>
-#include <TlHelp32.h>
+#include <tlhelp32.h>
 
 
 #include "Auth/Auth.hpp"
