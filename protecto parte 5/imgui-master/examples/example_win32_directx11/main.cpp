@@ -614,6 +614,10 @@ int maindll()
                             {
                                 show_password = !show_password;
                             }
+                            if (ImGui::IsItemHovered())
+                            {
+                                ImGui::SetTooltip(show_password ? "Ocultar contrasena" : "Mostrar contrasena");
+                            }
 
                             // Dibujar icono de ojo procedural
                             ImVec2 eyeCenter(passMax.x - 16.0f, passMidY);
@@ -800,6 +804,8 @@ int maindll()
                             // Toggle ojo
                             ImGui::SetCursorScreenPos(ImVec2(pMax.x - 32.0f, pMin.y));
                             if (ImGui::InvisibleButton("##toggle_reg_pass", ImVec2(32.0f, pMax.y - pMin.y))) show_reg_password = !show_reg_password;
+                            if (ImGui::IsItemHovered()) ImGui::SetTooltip(show_reg_password ? "Ocultar contrasena" : "Mostrar contrasena");
+
                             ImVec2 eyeCenter(pMax.x - 16.0f, pMidY);
                             draw->PathClear();
                             draw->PathArcTo(ImVec2(eyeCenter.x, eyeCenter.y + 3.0f), 5.0f, -IM_PI * 0.75f, -IM_PI * 0.25f);

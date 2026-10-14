@@ -3,7 +3,7 @@
 #include <tlhelp32.h>
 #include "vector.h"
 #include "lib.h"
-#include "C:\Users\Asmodeus\Downloads\protecto parte 5\protecto parte 5\imgui-master\MinHook\include\MinHook.h"
+#include "../../../../imgui-master/MinHook/include/MinHook.h"
 #include "offset.h"
 #include "notificaciones.h"
 DWORD GetProcZ(const char* processName)
