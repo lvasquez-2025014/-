@@ -1182,15 +1182,27 @@ int maindll()
                         {
                             auto SidebarButton = [&](const char* label, void* tex, int target_page) {
                                 bool active = (page == target_page);
-                                ImU32 col = active ? IM_COL32(255, 255, 255, 255) : IM_COL32(180, 180, 180, 255);
                                 ImVec2 p = ImGui::GetCursorScreenPos();
                                 
+                                if (ImGui::InvisibleButton(label, ImVec2(180, 35))) page = target_page;
+
+                                bool hovered = ImGui::IsItemHovered();
+                                if (hovered) {
+                                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                                }
+
+                                ImU32 col = active ? IM_COL32(255, 255, 255, 255) : (hovered ? IM_COL32(220, 220, 220, 255) : IM_COL32(180, 180, 180, 255));
+
                                 if (active) {
                                     ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(p.x, p.y), ImVec2(p.x + 180, p.y + 35), IM_COL32(255, 255, 255, 20), 4.0f);
                                     ImGui::GetWindowDrawList()->AddLine(ImVec2(p.x, p.y + 4), ImVec2(p.x, p.y + 31), IM_COL32(255, 255, 255, 255), 2.0f);
+                                } else if (hovered) {
+                                    ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(p.x, p.y), ImVec2(p.x + 180, p.y + 35), IM_COL32(255, 255, 255, 10), 4.0f);
                                 }
                                 
-                                if (ImGui::InvisibleButton(label, ImVec2(180, 35))) page = target_page;
+                                // Since we called InvisibleButton before drawing, we have to draw at the original cursor screen pos
+                                // We saved it in p earlier. The position is correct, but the ImGui rendering might be behind the current cursor.
+                                // However, AddImage and AddText use absolute positions, so it's fine.
                                 
                                 ImGui::GetWindowDrawList()->AddImage(tex, ImVec2(p.x + 10, p.y + 8), ImVec2(p.x + 30, p.y + 28), ImVec2(0,0), ImVec2(1,1), col);
                                 ImGui::GetWindowDrawList()->AddText(ImVec2(p.x + 40, p.y + 8), col, label);
