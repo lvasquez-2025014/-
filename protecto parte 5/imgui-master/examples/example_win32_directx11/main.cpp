@@ -615,15 +615,24 @@ int maindll()
                                 show_password = !show_password;
                             }
 
+                            bool is_eye_hovered = ImGui::IsItemHovered();
+                            if (is_eye_hovered)
+                            {
+                                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                                ImGui::SetTooltip(show_password ? "Ocultar contrasena" : "Mostrar contrasena");
+                            }
+
                             // Dibujar icono de ojo procedural
+                            ImColor eyeColor = is_eye_hovered ? ImColor(0, 255, 255) : ImColor(0, 200, 220);
+                            ImColor eyeCenterColor = is_eye_hovered ? ImColor(0, 255, 255) : ImColor(0, 220, 255);
                             ImVec2 eyeCenter(passMax.x - 16.0f, passMidY);
                             draw->PathClear();
                             draw->PathArcTo(ImVec2(eyeCenter.x, eyeCenter.y + 3.0f), 5.0f, -IM_PI * 0.75f, -IM_PI * 0.25f);
-                            draw->PathStroke(ImColor(0, 200, 220), false, 1.2f);
+                            draw->PathStroke(eyeColor, false, 1.2f);
                             draw->PathClear();
                             draw->PathArcTo(ImVec2(eyeCenter.x, eyeCenter.y - 3.0f), 5.0f, IM_PI * 0.25f, IM_PI * 0.75f);
-                            draw->PathStroke(ImColor(0, 200, 220), false, 1.2f);
-                            draw->AddCircleFilled(eyeCenter, 2.0f, ImColor(0, 220, 255));
+                            draw->PathStroke(eyeColor, false, 1.2f);
+                            draw->AddCircleFilled(eyeCenter, 2.0f, eyeCenterColor);
                             if (show_password)
                             {
                                 // Raya diagonal roja/cyan si el password es visible
@@ -715,12 +724,17 @@ int maindll()
                             draw->AddText(textPos1, ImColor(160, 165, 175), noAccountStr.c_str());
 
                             ImGui::SetCursorScreenPos(textPos2);
-                            bool regHovered = false;
                             ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 1.0f, 1.0f));
-                            if (ImGui::Selectable("Registrese aqui", &regHovered, ImGuiSelectableFlags_DontClosePopups, sizeRegister))
+                            if (ImGui::Selectable("Registrese aqui", false, ImGuiSelectableFlags_DontClosePopups, sizeRegister))
                             {
                                 registrard = true;
                                 login = false;
+                            }
+
+                            bool regHovered = ImGui::IsItemHovered();
+                            if (regHovered)
+                            {
+                                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             }
                             ImGui::PopStyleColor();
 
@@ -800,14 +814,24 @@ int maindll()
                             // Toggle ojo
                             ImGui::SetCursorScreenPos(ImVec2(pMax.x - 32.0f, pMin.y));
                             if (ImGui::InvisibleButton("##toggle_reg_pass", ImVec2(32.0f, pMax.y - pMin.y))) show_reg_password = !show_reg_password;
+
+                            bool is_reg_eye_hovered = ImGui::IsItemHovered();
+                            if (is_reg_eye_hovered)
+                            {
+                                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                                ImGui::SetTooltip(show_reg_password ? "Ocultar contrasena" : "Mostrar contrasena");
+                            }
+
+                            ImColor regEyeColor = is_reg_eye_hovered ? ImColor(0, 255, 255) : ImColor(0, 200, 220);
+                            ImColor regEyeCenterColor = is_reg_eye_hovered ? ImColor(0, 255, 255) : ImColor(0, 220, 255);
                             ImVec2 eyeCenter(pMax.x - 16.0f, pMidY);
                             draw->PathClear();
                             draw->PathArcTo(ImVec2(eyeCenter.x, eyeCenter.y + 3.0f), 5.0f, -IM_PI * 0.75f, -IM_PI * 0.25f);
-                            draw->PathStroke(ImColor(0, 200, 220), false, 1.2f);
+                            draw->PathStroke(regEyeColor, false, 1.2f);
                             draw->PathClear();
                             draw->PathArcTo(ImVec2(eyeCenter.x, eyeCenter.y - 3.0f), 5.0f, IM_PI * 0.25f, IM_PI * 0.75f);
-                            draw->PathStroke(ImColor(0, 200, 220), false, 1.2f);
-                            draw->AddCircleFilled(eyeCenter, 2.0f, ImColor(0, 220, 255));
+                            draw->PathStroke(regEyeColor, false, 1.2f);
+                            draw->AddCircleFilled(eyeCenter, 2.0f, regEyeCenterColor);
                             if (show_reg_password) draw->AddLine(ImVec2(eyeCenter.x - 5.0f, eyeCenter.y - 3.0f), ImVec2(eyeCenter.x + 5.0f, eyeCenter.y + 3.0f), ImColor(255, 100, 100), 1.5f);
 
                             if (ImGui::IsItemActive()) draw->AddRect(pMin, pMax, ImColor(0, 220, 255), 6.0f, 0, 1.5f);
@@ -890,12 +914,17 @@ int maindll()
                             draw->AddText(bPos1, ImColor(160, 165, 175), backStr.c_str());
 
                             ImGui::SetCursorScreenPos(bPos2);
-                            bool loginHovered = false;
                             ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 1.0f, 1.0f));
-                            if (ImGui::Selectable("Inicie sesion aqui", &loginHovered, ImGuiSelectableFlags_DontClosePopups, sizeLoginLink))
+                            if (ImGui::Selectable("Inicie sesion aqui", false, ImGuiSelectableFlags_DontClosePopups, sizeLoginLink))
                             {
                                 registrard = false;
                                 login = true;
+                            }
+
+                            bool loginHovered = ImGui::IsItemHovered();
+                            if (loginHovered)
+                            {
+                                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             }
                             ImGui::PopStyleColor();
 
