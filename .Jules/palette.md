@@ -1,0 +1,3 @@
+## 2024-03-24 - ImGui Missing Hover States for Selectable and InvisibleButton
+**Learning:** In Dear ImGui, interactive elements without default visual representation like `ImGui::InvisibleButton` or plain text wrapped in `ImGui::Selectable` do not show native hover states (like the hand cursor or underline). Hover variables passed into `ImGui::Selectable` are often not accurately bound to simple hover actions but rather selection state, causing planned effects like underlines to fail.
+**Action:** When implementing custom links or hidden interactive buttons, always manually check `ImGui::IsItemHovered()` immediately after defining the item, and explicitly set the cursor using `ImGui::SetMouseCursor(ImGuiMouseCursor_Hand)`. This provides crucial interactive feedback.
