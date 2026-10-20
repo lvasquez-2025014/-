@@ -614,6 +614,7 @@ int maindll()
                             {
                                 show_password = !show_password;
                             }
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
                             // Dibujar icono de ojo procedural
                             ImVec2 eyeCenter(passMax.x - 16.0f, passMidY);
@@ -651,6 +652,7 @@ int maindll()
                             {
                                 MessageBoxA(NULL, "Por favor contacte al soporte de ᶻ̷ ᴴ𝒯𝐸𝒜𝑀.", "Recuperacion", MB_ICONINFORMATION | MB_OK);
                             }
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             ImGui::PopStyleColor();
                             ImGui::PopFont();
 
@@ -722,6 +724,7 @@ int maindll()
                                 registrard = true;
                                 login = false;
                             }
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             ImGui::PopStyleColor();
 
                             // Subrayado interactivo si se pasa el mouse
@@ -800,6 +803,7 @@ int maindll()
                             // Toggle ojo
                             ImGui::SetCursorScreenPos(ImVec2(pMax.x - 32.0f, pMin.y));
                             if (ImGui::InvisibleButton("##toggle_reg_pass", ImVec2(32.0f, pMax.y - pMin.y))) show_reg_password = !show_reg_password;
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             ImVec2 eyeCenter(pMax.x - 16.0f, pMidY);
                             draw->PathClear();
                             draw->PathArcTo(ImVec2(eyeCenter.x, eyeCenter.y + 3.0f), 5.0f, -IM_PI * 0.75f, -IM_PI * 0.25f);
@@ -897,6 +901,7 @@ int maindll()
                                 registrard = false;
                                 login = true;
                             }
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             ImGui::PopStyleColor();
 
                             if (loginHovered)
@@ -1192,6 +1197,14 @@ int maindll()
                                 
                                 if (ImGui::InvisibleButton(label, ImVec2(180, 35))) page = target_page;
                                 
+                                bool hovered = ImGui::IsItemHovered();
+                                if (hovered) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+
+                                if (!active && hovered) {
+                                    ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(p.x, p.y), ImVec2(p.x + 180, p.y + 35), IM_COL32(255, 255, 255, 10), 4.0f);
+                                    col = IM_COL32(220, 220, 220, 255);
+                                }
+
                                 ImGui::GetWindowDrawList()->AddImage(tex, ImVec2(p.x + 10, p.y + 8), ImVec2(p.x + 30, p.y + 28), ImVec2(0,0), ImVec2(1,1), col);
                                 ImGui::GetWindowDrawList()->AddText(ImVec2(p.x + 40, p.y + 8), col, label);
                             };
