@@ -1,0 +1,3 @@
+## 2024-10-22 - ImGui Custom Interaction Visuals
+**Learning:** In Dear ImGui, custom interactive elements constructed from `ImGui::InvisibleButton` or `ImGui::Selectable` (often used to build stylized text links or procedural icons like a password toggle) do not inherently provide visible hover feedback. Although `ImGui::Selectable` tracks selection state, its hover state must be manually queried and styled if it functions purely as an action button.
+**Action:** When creating custom interactable widgets, always explicitly check `if (ImGui::IsItemHovered())` immediately after the item declaration and set the mouse cursor appropriately using `ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);` to ensure users realize the element is interactive.
