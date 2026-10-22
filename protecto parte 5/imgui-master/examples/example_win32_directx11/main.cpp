@@ -614,6 +614,7 @@ int maindll()
                             {
                                 show_password = !show_password;
                             }
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
                             // Dibujar icono de ojo procedural
                             ImVec2 eyeCenter(passMax.x - 16.0f, passMidY);
@@ -651,6 +652,7 @@ int maindll()
                             {
                                 MessageBoxA(NULL, "Por favor contacte al soporte de ᶻ̷ ᴴ𝒯𝐸𝒜𝑀.", "Recuperacion", MB_ICONINFORMATION | MB_OK);
                             }
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             ImGui::PopStyleColor();
                             ImGui::PopFont();
 
@@ -660,6 +662,7 @@ int maindll()
                             ImVec2 btnMax = btnMin + ImVec2(320.0f, 42.0f);
 
                             bool btnHovered = ImGui::IsMouseHoveringRect(btnMin, btnMax);
+                            if (btnHovered) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             bool btnClicked = btnHovered && ImGui::IsMouseClicked(0);
 
                             // Dibujar contorno neón degradado del botón
@@ -722,6 +725,7 @@ int maindll()
                                 registrard = true;
                                 login = false;
                             }
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             ImGui::PopStyleColor();
 
                             // Subrayado interactivo si se pasa el mouse
@@ -800,6 +804,7 @@ int maindll()
                             // Toggle ojo
                             ImGui::SetCursorScreenPos(ImVec2(pMax.x - 32.0f, pMin.y));
                             if (ImGui::InvisibleButton("##toggle_reg_pass", ImVec2(32.0f, pMax.y - pMin.y))) show_reg_password = !show_reg_password;
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             ImVec2 eyeCenter(pMax.x - 16.0f, pMidY);
                             draw->PathClear();
                             draw->PathArcTo(ImVec2(eyeCenter.x, eyeCenter.y + 3.0f), 5.0f, -IM_PI * 0.75f, -IM_PI * 0.25f);
@@ -841,6 +846,7 @@ int maindll()
                             ImVec2 rBtnMax = rBtnMin + ImVec2(320.0f, 42.0f);
 
                             bool rBtnHovered = ImGui::IsMouseHoveringRect(rBtnMin, rBtnMax);
+                            if (rBtnHovered) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             bool rBtnClicked = rBtnHovered && ImGui::IsMouseClicked(0);
 
                             ImColor rBtnBorder = rBtnHovered ? ImColor(255, 180, 0) : ImColor(0, 200, 255);
@@ -897,6 +903,7 @@ int maindll()
                                 registrard = false;
                                 login = true;
                             }
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             ImGui::PopStyleColor();
 
                             if (loginHovered)
@@ -1191,6 +1198,7 @@ int maindll()
                                 }
                                 
                                 if (ImGui::InvisibleButton(label, ImVec2(180, 35))) page = target_page;
+                                if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                                 
                                 ImGui::GetWindowDrawList()->AddImage(tex, ImVec2(p.x + 10, p.y + 8), ImVec2(p.x + 30, p.y + 28), ImVec2(0,0), ImVec2(1,1), col);
                                 ImGui::GetWindowDrawList()->AddText(ImVec2(p.x + 40, p.y + 8), col, label);
