@@ -1,0 +1,3 @@
+## 2024-05-18 - ImGui Custom Element Hover Feedback
+**Learning:** In Dear ImGui, when creating custom interactive areas using `ImGui::InvisibleButton` or `ImGui::Selectable`, these elements lack native, visually distinct hover states (like a cursor change) by default. The boolean parameter in `ImGui::Selectable` tracks selection state, not hover.
+**Action:** When implementing custom interactive elements, always include manual styling for hover states and explicit cursor changes using `if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);` placed immediately after the UI element declaration to ensure users recognize the element is clickable.
