@@ -1,0 +1,3 @@
+## 2024-10-27 - ImGui Hover States for Selectable and InvisibleButton
+**Learning:** In Dear ImGui, passing a local `bool` to `ImGui::Selectable` tracks selection, not continuous hover state. Also, neither `ImGui::Selectable` nor `ImGui::InvisibleButton` provide standard UI hover indicators like changing to a hand cursor natively.
+**Action:** When creating custom links or buttons with these components, always check `ImGui::IsItemHovered()` immediately afterwards to manage any visual hover styling and set `ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);` to ensure standard UI/UX interactive feedback.

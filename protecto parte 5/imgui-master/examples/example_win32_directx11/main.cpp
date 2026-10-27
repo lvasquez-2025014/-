@@ -614,6 +614,7 @@ int maindll()
                             {
                                 show_password = !show_password;
                             }
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
                             // Dibujar icono de ojo procedural
                             ImVec2 eyeCenter(passMax.x - 16.0f, passMidY);
@@ -645,11 +646,15 @@ int maindll()
                             // --- ¿OLVIDÓ SU CONTRASEÑA? ---
                             ImGui::SetCursorPos(ImVec2(180, 108));
                             ImGui::PushFont(font2::fuentezada);
-                            bool forgotHovered = false;
+                            bool dummy_forgot = false;
                             ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.6f, 0.65f, 0.7f, 1.0f));
-                            if (ImGui::Selectable("¿Olvido su contrasena?", &forgotHovered, ImGuiSelectableFlags_DontClosePopups, ImVec2(140, 15)))
+                            if (ImGui::Selectable("¿Olvido su contrasena?", &dummy_forgot, ImGuiSelectableFlags_DontClosePopups, ImVec2(140, 15)))
                             {
                                 MessageBoxA(NULL, "Por favor contacte al soporte de ᶻ̷ ᴴ𝒯𝐸𝒜𝑀.", "Recuperacion", MB_ICONINFORMATION | MB_OK);
+                            }
+                            bool forgotHovered = ImGui::IsItemHovered();
+                            if (forgotHovered) {
+                                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             }
                             ImGui::PopStyleColor();
                             ImGui::PopFont();
@@ -715,12 +720,16 @@ int maindll()
                             draw->AddText(textPos1, ImColor(160, 165, 175), noAccountStr.c_str());
 
                             ImGui::SetCursorScreenPos(textPos2);
-                            bool regHovered = false;
+                            bool dummy_reg = false;
                             ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 1.0f, 1.0f));
-                            if (ImGui::Selectable("Registrese aqui", &regHovered, ImGuiSelectableFlags_DontClosePopups, sizeRegister))
+                            if (ImGui::Selectable("Registrese aqui", &dummy_reg, ImGuiSelectableFlags_DontClosePopups, sizeRegister))
                             {
                                 registrard = true;
                                 login = false;
+                            }
+                            bool regHovered = ImGui::IsItemHovered();
+                            if (regHovered) {
+                                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             }
                             ImGui::PopStyleColor();
 
@@ -800,6 +809,7 @@ int maindll()
                             // Toggle ojo
                             ImGui::SetCursorScreenPos(ImVec2(pMax.x - 32.0f, pMin.y));
                             if (ImGui::InvisibleButton("##toggle_reg_pass", ImVec2(32.0f, pMax.y - pMin.y))) show_reg_password = !show_reg_password;
+                            if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             ImVec2 eyeCenter(pMax.x - 16.0f, pMidY);
                             draw->PathClear();
                             draw->PathArcTo(ImVec2(eyeCenter.x, eyeCenter.y + 3.0f), 5.0f, -IM_PI * 0.75f, -IM_PI * 0.25f);
@@ -890,12 +900,16 @@ int maindll()
                             draw->AddText(bPos1, ImColor(160, 165, 175), backStr.c_str());
 
                             ImGui::SetCursorScreenPos(bPos2);
-                            bool loginHovered = false;
+                            bool dummy_login = false;
                             ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 1.0f, 1.0f));
-                            if (ImGui::Selectable("Inicie sesion aqui", &loginHovered, ImGuiSelectableFlags_DontClosePopups, sizeLoginLink))
+                            if (ImGui::Selectable("Inicie sesion aqui", &dummy_login, ImGuiSelectableFlags_DontClosePopups, sizeLoginLink))
                             {
                                 registrard = false;
                                 login = true;
+                            }
+                            bool loginHovered = ImGui::IsItemHovered();
+                            if (loginHovered) {
+                                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                             }
                             ImGui::PopStyleColor();
 
@@ -1191,6 +1205,7 @@ int maindll()
                                 }
                                 
                                 if (ImGui::InvisibleButton(label, ImVec2(180, 35))) page = target_page;
+                                if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                                 
                                 ImGui::GetWindowDrawList()->AddImage(tex, ImVec2(p.x + 10, p.y + 8), ImVec2(p.x + 30, p.y + 28), ImVec2(0,0), ImVec2(1,1), col);
                                 ImGui::GetWindowDrawList()->AddText(ImVec2(p.x + 40, p.y + 8), col, label);
